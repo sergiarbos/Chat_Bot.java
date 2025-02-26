@@ -4,31 +4,31 @@ import com.theokanning.openai.service.OpenAiService;
 import java.util.Scanner;
 
 public class ChatBotAI {
-    private static final String API_KEY = "TU_CLAVE_API_AQUI"; // Reemplaza con tu clave de OpenAI
+    private static final String API_KEY = "YOUR_KEY_API_HERE";
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         OpenAiService service = new OpenAiService(API_KEY);
 
-        System.out.println("Bienvenido al ChatBot AI. Escribe 'salir' para terminar.");
+        System.out.println("Welcome to ChatBot AI. Write 'salir' to finish.");
 
         while (true) {
-            System.out.print("Tú: ");
+            System.out.print("You: ");
             String userInput = scanner.nextLine();
 
-            if (userInput.equalsIgnoreCase("salir")) {
-                System.out.println("ChatBot: ¡Hasta luego!");
+            if (userInput.equalsIgnoreCase("exit")) {
+                System.out.println("ChatBot: Good Bye!");
                 break;
             }
 
-            // Crear una solicitud a OpenAI
+
             CompletionRequest request = CompletionRequest.builder()
-                    .model("gpt-3.5-turbo") // O usa "gpt-4" si tienes acceso
+                    .model("gpt-3.5-turbo")
                     .prompt(userInput)
                     .maxTokens(50)
                     .build();
 
-            // Obtener respuesta
+            // Obtain Answer
             String response = service.createCompletion(request).getChoices().get(0).getText().trim();
             System.out.println("ChatBot: " + response);
         }
