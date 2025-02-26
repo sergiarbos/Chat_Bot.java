@@ -1,29 +1,39 @@
-package org.example;
+import com.theokanning.openai.completion.CompletionRequest;
+import com.theokanning.openai.service.OpenAiService;
 
-import java.util.HashMap;
 import java.util.Scanner;
 
-public class ChatBot {
-    public static void main(String[] args) {
-        // Diccionario de respuestas
-        HashMap<String, String> respuestas = new HashMap<>();
-        respuestas.put("hola", "¡Hola! ¿Cómo estás?");
-        respuestas.put("cómo estás", "Estoy bien, gracias por preguntar.");
-        respuestas.put("adiós", "¡Hasta luego! Que tengas un buen día.");
-        respuestas.put("nombre", "Soy un bot de chat en Java.");
+public class ChatBotAI {
+    private static final String API_KEY = "TU_CLAVE_API_AQUI"; // Reemplaza con tu clave de OpenAI
 
+    public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Bienvenido al bot de chat. Escribe algo:");
+        OpenAiService service = new OpenAiService(API_KEY);
+
+        System.out.println("Bienvenido al ChatBot AI. Escribe 'salir' para terminar.");
 
         while (true) {
-            String input = scanner.nextLine().toLowerCase(); // Convertir a minúsculas
-            if (input.equals("salir")) {
-                System.out.println("Adiós!");
+            System.out.print("Tú: ");
+            String userInput = scanner.nextLine();
+
+            if (userInput.equalsIgnoreCase("salir")) {
+                System.out.println("ChatBot: ¡Hasta luego!");
                 break;
             }
-            System.out.println(respuestas.getOrDefault(input, "Lo siento, no entiendo."));
+
+            // Crear una solicitud a OpenAI
+            CompletionRequest request = CompletionRequest.builder()
+                    .model("gpt-3.5-turbo") // O usa "gpt-4" si tienes acceso
+                    .prompt(userInput)
+                    .maxTokens(50)
+                    .build();
+
+            // Obtener respuesta
+            String response = service.createCompletion(request).getChoices().get(0).getText().trim();
+            System.out.println("ChatBot: " + response);
         }
 
         scanner.close();
     }
 }
+
