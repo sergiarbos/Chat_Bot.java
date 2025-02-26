@@ -10,7 +10,7 @@ public class ChatBotAI {
         Scanner scanner = new Scanner(System.in);
         OpenAiService service = new OpenAiService(API_KEY);
 
-        System.out.println("Welcome to ChatBot AI. Write 'salir' to finish.");
+        System.out.println("Welcome to ChatBot AI. Write 'exit' to finish.");
 
         while (true) {
             System.out.print("You: ");
